@@ -28,7 +28,7 @@ public class HorrorMovie implements ActionListener {
 
     HorrorMovie() throws FileNotFoundException, CLIPSException {
         try {
-            this.autoResources = ResourceBundle.getBundle("properties.AutoResources",
+            this.autoResources = ResourceBundle.getBundle("properties.HorrorMovie",
                     Locale.getDefault());
         } catch (MissingResourceException mre) {
             mre.printStackTrace();
@@ -39,7 +39,7 @@ public class HorrorMovie implements ActionListener {
         /* Create a new JFrame container. */
         /* ================================ */
 
-        final JFrame jfrm = new JFrame(this.autoResources.getString("AutoDemo"));
+        final JFrame jfrm = new JFrame(this.autoResources.getString("HorrorMovie"));
 
         /* ============================= */
         /* Specify FlowLayout manager. */
@@ -104,7 +104,7 @@ public class HorrorMovie implements ActionListener {
 
         this.clips = new Environment();
 
-        this.clips.load("autodemo.clp");
+        this.clips.load("horrormovie.clp");
 
         this.clips.reset();
         runAuto();
