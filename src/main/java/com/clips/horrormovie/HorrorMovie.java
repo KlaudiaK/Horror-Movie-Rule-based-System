@@ -51,7 +51,7 @@ public class HorrorMovie implements ActionListener {
         /* Give the frame an initial size. */
         /* ================================= */
 
-        jfrm.setSize(350, 200);
+        jfrm.setSize(900, 600);
 
         /* ============================================================= */
         /* Terminate the program when the user closes the application. */
