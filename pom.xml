@@ -24,7 +24,7 @@
             <groupId>net.sf.clipsrules</groupId>
             <artifactId>clips.jni</artifactId>
             <scope>system</scope>
-            <systemPath>D:\studia\SEMESTR_5\SI\Horror-Movie-Rule-based-System\CLIPSJNI.jar</systemPath>
+            <systemPath>${basedir}/CLIPSJNI.jar</systemPath>
         </dependency>
     </dependencies>
 
