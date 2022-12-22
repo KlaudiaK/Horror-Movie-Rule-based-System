@@ -1,6 +1,8 @@
 # Horror Movie Rule-based System
 
 This system will find the horror movie from your worst nightmare  :upside_down_face:  :ghost:
+- [Klaudia Kowalska](https://github.com/KlaudiaK)
+- [Michał Zieliński](https://github.com/MichalxPZ)
 
 ## Prerequisites
 * Java 11
