@@ -17,6 +17,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven-compiler-plugin-version>2.3.2</maven-compiler-plugin-version>
     </properties>
 
     <dependencies>
@@ -24,7 +25,7 @@
             <groupId>net.sf.clipsrules</groupId>
             <artifactId>clips.jni</artifactId>
             <scope>system</scope>
-            <systemPath>${basedir}/CLIPSJNI.jar</systemPath>
+            <systemPath>${pom.basedir}\CLIPSJNI.jar</systemPath>
         </dependency>
     </dependencies>
 
@@ -33,9 +34,31 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.0</version>
                 <configuration>
                     <mainClass>com.clips.horrormovie.HorrorMovie</mainClass>
                     <classpathScope>compile</classpathScope>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.clips.horrormovie.HorrorMovie</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
                 </configuration>
             </plugin>
         </plugins>
