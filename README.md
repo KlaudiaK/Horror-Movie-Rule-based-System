@@ -14,4 +14,4 @@ This system will find the horror movie from your worst nightmare  :upside_down_f
 * `mvn exec:java`
 
 ## Run
-* `java -jar HorrorMovie-0.4-jar-with-dependencies.jar`
+* `java -jar HorrorMovie-0.4-jar-with-dependencies.jar` (make sure that rules descibed in horrormovie.clp file are in the same direction as your jar :))
