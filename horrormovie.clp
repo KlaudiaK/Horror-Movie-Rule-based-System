@@ -2,9 +2,7 @@
 ;;;======================================================
 ;;;   Horror Movie System
 ;;;
-;;;     This system will find the horror movie from your worst nightmare.
-;;;
-;;;     CLIPS Version 6.3 Example
+;;;   This system will find the horror movie from your worst nightmare.
 ;;;
 ;;;======================================================
 

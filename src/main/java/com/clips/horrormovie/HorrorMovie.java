@@ -3,6 +3,7 @@ package com.clips.horrormovie;
 import net.sf.clipsrules.jni.*;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,7 +26,8 @@ public class HorrorMovie implements ActionListener {
     boolean isExecuting = false;
     Thread executionThread;
 
-
+    Color backgroundColor = new Color(0xFFBFD4EC);
+    Color buttonBackgroundColor = new Color(0x7094AC);
     HorrorMovie() throws FileNotFoundException, CLIPSException {
         try {
             this.autoResources = ResourceBundle.getBundle("properties.HorrorMovie",
@@ -35,83 +37,60 @@ public class HorrorMovie implements ActionListener {
             return;
         }
 
-        /* ================================ */
-        /* Create a new JFrame container. */
-        /* ================================ */
-
         final JFrame jfrm = new JFrame(this.autoResources.getString("HorrorMovie"));
-
-        /* ============================= */
-        /* Specify FlowLayout manager. */
-        /* ============================= */
 
         jfrm.getContentPane().setLayout(new GridLayout(3, 1));
 
-        /* ================================= */
-        /* Give the frame an initial size. */
-        /* ================================= */
-
-        jfrm.setSize(900, 600);
-
-        /* ============================================================= */
-        /* Terminate the program when the user closes the application. */
-        /* ============================================================= */
+        jfrm.setSize(700, 400);
 
         jfrm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        /* =========================== */
-        /* Create the display panel. */
-        /* =========================== */
 
         final JPanel displayPanel = new JPanel();
         this.displayLabel = new JLabel();
         displayPanel.add(this.displayLabel);
-
-        /* =========================== */
-        /* Create the choices panel. */
-        /* =========================== */
+        displayPanel.setBackground(backgroundColor);
+        displayPanel.setOpaque(true);
 
         this.choicesPanel = new JPanel();
+        this.choicesPanel.setBackground(backgroundColor);
+        this.choicesPanel.setOpaque(true);
         this.choicesButtons = new ButtonGroup();
 
-        /* =========================== */
-        /* Create the buttons panel. */
-        /* =========================== */
+        displayPanel.setOpaque(true);
 
         final JPanel buttonPanel = new JPanel();
-
+        buttonPanel.setSize(200, 100);
+        buttonPanel.setBackground(backgroundColor);
+        buttonPanel.setOpaque(true);
         this.prevButton = new JButton(autoResources.getString("Prev"));
         this.prevButton.setActionCommand("Prev");
+        this.prevButton.setBackground(buttonBackgroundColor);
+        this.prevButton.setOpaque(true);
+        this.prevButton.setPreferredSize(new Dimension(100, 40));
+        this.prevButton.setFont(new Font("Serif", Font.PLAIN, 20));
         buttonPanel.add(prevButton);
         this.prevButton.addActionListener(this);
 
         this.nextButton = new JButton(autoResources.getString("Next"));
         this.nextButton.setActionCommand("Next");
+        this.nextButton.setBackground(buttonBackgroundColor);
+        this.nextButton.setOpaque(true);
+        this.nextButton.setPreferredSize(new Dimension(100, 40));
+        this.nextButton.setFont(new Font("Serif", Font.PLAIN, 20));
         buttonPanel.add(nextButton);
         this.nextButton.addActionListener(this);
-
-        /* ===================================== */
-        /* Add the panels to the content pane. */
-        /* ===================================== */
 
         jfrm.getContentPane().add(displayPanel);
         jfrm.getContentPane().add(choicesPanel);
         jfrm.getContentPane().add(buttonPanel);
-
-        /* ======================== */
-        /* Load the auto program. */
-        /* ======================== */
 
         this.clips = new Environment();
 
         this.clips.load("horrormovie.clp");
 
         this.clips.reset();
-        runAuto();
-
-        /* ==================== */
-        /* Display the frame. */
-        /* ==================== */
+        runProgram();
 
         jfrm.setVisible(true);
     }
@@ -127,33 +106,20 @@ public class HorrorMovie implements ActionListener {
         return (FactAddressValue) results.get(0);
     }
 
-    /****************/
-    /* nextUIState: */
-
-    /****************/
-    // It isn't necessary to explicitly throw the ClassCastException,
-    // but I wrote it to make clear that the castings might not always be right.
-    // It depends on the template declarations, which in this case match with the expected value types.
     private void nextUIState() throws ClassCastException, CLIPSException {
-        /* ===================== */
+
         /* Get the state-list. */
-        /* ===================== */
 
         String evalStr = "(find-all-facts ((?f state-list)) TRUE)";
         final String currentID = findFirstFact(evalStr).getSlotValue("current").toString();
 
-        /* =========================== */
         /* Get the current UI state. */
-        /* =========================== */
 
         evalStr = "(find-all-facts ((?f UI-state)) " + "(eq ?f:id " + currentID
                 + "))";
         final FactAddressValue fv = findFirstFact(evalStr);
 
-
-        /* ======================================== */
         /* Determine the Next/Prev button states. */
-        /* ======================================== */
 
         if (fv.getSlotValue("state").toString().equals("final")) {
             this.nextButton.setActionCommand("Restart");
@@ -169,9 +135,7 @@ public class HorrorMovie implements ActionListener {
             this.prevButton.setVisible(true);
         }
 
-        /* ===================== */
         /* Set up the choices. */
-        /* ===================== */
 
         this.choicesPanel.removeAll();
         this.choicesButtons = new ButtonGroup();
@@ -191,7 +155,9 @@ public class HorrorMovie implements ActionListener {
                 rButton = new JRadioButton(autoResources.getString(bv
                         .toString()), false);
             }
-
+            rButton.setFont(new Font("Serif", Font.PLAIN, 18));
+            rButton.setBackground(backgroundColor);
+            rButton.setOpaque(true);
             rButton.setActionCommand(bv.toString());
             this.choicesPanel.add(rButton);
             this.choicesButtons.add(rButton);
@@ -199,9 +165,7 @@ public class HorrorMovie implements ActionListener {
 
         this.choicesPanel.repaint();
 
-        /* ==================================== */
         /* Set the label to the display text. */
-        /* ==================================== */
 
         final String symbolVal = ((SymbolValue) fv.getSlotValue("display")).getValue();
         final String theText = this.autoResources.getString(symbolVal);
@@ -212,14 +176,8 @@ public class HorrorMovie implements ActionListener {
         this.isExecuting = false;
     }
 
-    /* ######################## */
     /* ActionListener Methods */
-    /* ######################## */
 
-    /*******************/
-    /* actionPerformed */
-
-    /*******************/
     public void actionPerformed(ActionEvent ae) {
         try {
             onActionPerformed(ae);
@@ -228,11 +186,7 @@ public class HorrorMovie implements ActionListener {
         }
     }
 
-    /***********/
-    /* runAuto */
-
-    /***********/
-    public void runAuto() {
+    public void runProgram() {
         final Runnable runThread = new Runnable() {
             public void run() {
                 try {
@@ -260,24 +214,16 @@ public class HorrorMovie implements ActionListener {
         this.executionThread.start();
     }
 
-    /*********************/
-    /* onActionPerformed */
-
-    /*********************/
     public void onActionPerformed(ActionEvent ae) throws ClassCastException, CLIPSException {
         if (this.isExecuting)
             return;
 
-        /* ===================== */
         /* Get the state-list. */
-        /* ===================== */
 
         final String evalStr = "(find-all-facts ((?f state-list)) TRUE)";
         final String currentID = findFirstFact(evalStr).getSlotValue("current").toString();
 
-        /* ========================= */
         /* Handle the Next button. */
-        /* ========================= */
 
         if (ae.getActionCommand().equals("Next")) {
             if (choicesButtons.getButtonCount() == 0) {
@@ -288,21 +234,19 @@ public class HorrorMovie implements ActionListener {
                         + ")");
             }
 
-            runAuto();
+            runProgram();
         } else if (ae.getActionCommand().equals("Restart")) {
             this.clips.reset();
-            runAuto();
+            runProgram();
         } else if (ae.getActionCommand().equals("Prev")) {
             this.clips.assertString("(prev " + currentID + ")");
-            runAuto();
+            runProgram();
         }
     }
 
-    /*****************/
-    /* wrapLabelText */
-
-    /*****************/
     private void wrapLabelText(JLabel label, String text) {
+        label.setFont(new Font("Serif", Font.BOLD, 22));
+        label.setBorder(new EmptyBorder(20,0,0,0));
         final FontMetrics fm = label.getFontMetrics(label.getFont());
         final Container container = label.getParent();
         int containerWidth = container.getWidth();
@@ -349,7 +293,6 @@ public class HorrorMovie implements ActionListener {
     }
 
     public static void main(String args[]) {
-        // Create the frame on the event dispatching thread.
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 try {
